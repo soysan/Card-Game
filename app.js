@@ -17,6 +17,18 @@ class Deck {
         this.cards = [];
         this.deck = Deck.generateDeck();
     }
+    
+    static generateDeck = () => {
+        let newDeck = [];
+        const suits = ["♣", "♦", "♥", "♠"];
+        const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+        for (let i = 0; i < suits.length; i++){
+            for (let k = 0; k < values.length; k++){
+                newDeck.push(new Card(suits[i], values[k]));
+            }
+        }
+        return newDeck;
+    }
     static shuffle = () => {
         let deckSize = this.deck.length;
         for (let i = deckSize.length - 1; i > 0; i--){
