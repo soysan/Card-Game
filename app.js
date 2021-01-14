@@ -14,10 +14,9 @@ class Card {
 class Deck {
     constructor(gameType) {
         this.gameType = gameType;
-        this.cards = [];
         this.deck = Deck.generateDeck();
     }
-    
+
     static generateDeck = () => {
         let newDeck = [];
         const suits = ["♣", "♦", "♥", "♠"];
@@ -44,6 +43,7 @@ class Deck {
     }
 
     resetDeck = () => {
-
+        this.deck = new Deck();
+        return this.deck.shuffle();
     }
 }
