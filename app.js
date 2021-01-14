@@ -28,9 +28,9 @@ class Deck {
         }
         return newDeck;
     }
-    static shuffle = () => {
+    shuffle = () => {
         let deckSize = this.deck.length;
-        for (let i = deckSize.length - 1; i > 0; i--){
+        for (let i = deckSize - 1; i > 0; i--){
             let j = Math.floor(Math.random() * (1 + i));
             let temp = this.deck[i];
             this.deck[i] = this.deck[j];
@@ -43,7 +43,13 @@ class Deck {
     }
 
     resetDeck = () => {
-        this.deck = new Deck();
-        return this.deck.shuffle();
+        let newDeck = new Deck();
+        newDeck.shuffle();
+        this.deck = newDeck;
     }
 }
+
+let hi = new Deck()
+hi.shuffle();
+hi.resetDeck();
+console.log(hi)
