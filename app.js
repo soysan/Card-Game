@@ -64,7 +64,16 @@ class Player {
 
     }
     getHandScore = () => {
-
+        let score = 0;
+        let arcCount = 0;
+        for (let i = 0; i < this.hand.length; i++){
+            if (this.hand[i].getRankNumber() === 11) arcCount++;
+            score += this.hand[i].getRankNumber();
+        }
+        if (score >= 21) {
+            while (arcCount !== 0) score -= 10;
+        }
+        return score;
     }
 }
 
