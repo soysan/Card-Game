@@ -48,7 +48,77 @@ class Deck {
         this.deck = newDeck;
     }
 }
+class Player {
+    constructor(name, type, gameType, chips = 400) {
+        this.name = name;
+        this.type = type; // {'ai', 'house', 'user'}
+        this.gameType = gameType;
+        this.hand = [];
+        this.chips = chips;
+        this.bet = 0;
+        this.winAmount = 0;
+        this.gameStatus = 'betting';
+    }
 
+    promptPlayer = userData => {
+
+    }
+    getHandScore = () => {
+
+    }
+}
+
+class GameDecision {
+    constructor(action, amount) {
+        this.action = action;
+        this.amount = amount;
+    }
+}
+
+class Table {
+    constructor(gameType, betDenominations = [5,20,50,100]) {
+        this.gameType = gameType;
+        this.betDenominations = betDenominations;
+        this.deck = new Deck(this.gameType);
+        this.players = [];
+        this.house = new Player('house', 'house', this.gameType);
+        this.gamePhase = 'betting';
+        this.resultsLog = [];
+    }
+
+    evaluateMove = Player => {
+
+    }
+    blackjackEvaluateAndGetRoundResults = () => {
+
+    }
+    blackjackAssignPlayerHands = () => {
+
+    }
+    blackjackClearPlayerHandsAndBets = () => {
+
+    }
+    getTurnPlayer = () => {
+
+    }
+    haveTurn = () => {
+
+    }
+    onFirstPlayer = () => {
+
+    }
+    onLastPlayer = () => {
+
+    }
+    allPlayerActionsResolved = () => {
+
+    }
+}
+// let table1 = new Table();
+// while (table1.gamePhase != 'roundOver') {
+//     table1.haveTurn();
+// }
+// console.log(table1.resultsLogs);
 let hi = new Deck()
 hi.shuffle();
 hi.resetDeck();
