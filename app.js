@@ -93,19 +93,27 @@ class Table {
         this.gameType = gameType;
         this.betDenominations = betDenominations;
         this.deck = new Deck(this.gameType);
-        this.players = [new Player("Hujin", 'ai', this.gameType), new Player(input, name, this.gameType), new Player("Raijin", 'ai', this.gameType)];
+        this.players = [new Player("Hujin", 'ai', this.gameType), new Player("Mikado", 'ai', this.gameType), new Player("Raijin", 'ai', this.gameType)];
         this.house = new Player('house', 'house', this.gameType);
         this.gamePhase = 'betting'; //betting, acting, evaluatingWinners, gameOver
         this.resultsLog = [];
     }
     evaluateMove = Player => {
-
+        let decision = Player.promptPlayer();
     }
     blackjackEvaluateAndGetRoundResults = () => {
 
     }
     blackjackAssignPlayerHands = () => {
-
+        // house???
+        for (let i = 0; i < this.players.length; i++){
+            let j = 0;
+            let cards = [];
+            while (j <= 2) {
+                cards.push(this.deck.drawOne());
+            }
+            this.players[i].hand = cards;
+        }
     }
     blackjackClearPlayerHandsAndBets = () => {
 
