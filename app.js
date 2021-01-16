@@ -57,12 +57,11 @@ class Player {
         this.gameStatus = 'betting';
     }
     promptPlayer = (userData = null) => {
-        const actionSelect = ['bet', 'hit', 'double', 'stand', 'surrender'];
         if (this.gameType === 'blackjack') {
             if (this.type === 'ai') {
-                return new GameDecision(actionSelect[userData], null);
+                return new GameDecision(null, null);
             } else if (this.type === 'user') {
-                return new GameDecision(actionSelect[userData], this.bet);
+                return new GameDecision(userData, this.bet);
             }
         }
     }
