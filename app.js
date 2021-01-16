@@ -116,7 +116,10 @@ class Table {
         }
     }
     blackjackClearPlayerHandsAndBets = () => {
-
+        for (let i = 0; i < this.players.length; i++){
+            this.players[i].hand = [];
+            this.players[i].bet = 0;
+        }
     }
     getTurnPlayer = () => {
 
