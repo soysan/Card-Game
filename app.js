@@ -56,7 +56,7 @@ class Player {
         this.winAmount = 0;
         this.gameStatus = 'betting';
     }
-    promptPlayer = (userData = null) => {
+    promptPlayer = (userData = null) => { // input from userData = {bet, surrender, stand, double, hit}
         if (this.gameType === 'blackjack') {
             if (this.type === 'ai') {
                 return new GameDecision(null, null);
@@ -88,16 +88,16 @@ class GameDecision {
 }
 
 class Table {
+    static turnCounter = 0;
     constructor(gameType, betDenominations = [5,20,50,100]) {
         this.gameType = gameType;
         this.betDenominations = betDenominations;
         this.deck = new Deck(this.gameType);
-        this.players = [];
+        this.players = [new Player("Hujin", 'ai', this.gameType), new Player(input, name, this.gameType), new Player("Raijin", 'ai', this.gameType)];
         this.house = new Player('house', 'house', this.gameType);
-        this.gamePhase = 'betting';
+        this.gamePhase = 'betting'; //betting, acting, evaluatingWinners, gameOver
         this.resultsLog = [];
     }
-
     evaluateMove = Player => {
 
     }
