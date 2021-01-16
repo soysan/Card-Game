@@ -124,17 +124,20 @@ class Table {
     getTurnPlayer = () => {
 
     }
-    haveTurn = () => {
+    haveTurn = (userData) => {
 
     }
     onFirstPlayer = () => {
-
+        return this.players[0] === this.getTurnPlayer();
     }
     onLastPlayer = () => {
-
+        return this.players[this.players.length - 1] === this.getTurnPlayer();
     }
     allPlayerActionsResolved = () => {
-
+        for (let i = 0; i < this.players.length - 1; i++){
+            if (this.players[i].gameStatus === null) return false;
+        }
+        return true;
     }
 }
 // let table1 = new Table();
