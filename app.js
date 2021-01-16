@@ -16,7 +16,6 @@ class Deck {
         this.gameType = gameType;
         this.deck = Deck.generateDeck();
     }
-
     static generateDeck = () => {
         let newDeck = [];
         const suits = ["♣", "♦", "♥", "♠"];
@@ -37,11 +36,9 @@ class Deck {
             this.deck[j] = temp;
         }
     }
-
     drawOne = () => {
         return this.cards.pop();
     }
-
     resetDeck = () => {
         let newDeck = new Deck();
         newDeck.shuffle();
@@ -59,9 +56,15 @@ class Player {
         this.winAmount = 0;
         this.gameStatus = 'betting';
     }
-
-    promptPlayer = userData => {
-
+    promptPlayer = (userData = null) => {
+        const actionSelect = ['bet', 'hit', 'double', 'stand', 'surrender'];
+        if (this.gameType === 'blackjack') {
+            if (this.type === 'ai') {
+                return new GameDecision(actionSelect[userData], null);
+            } else if (this.type === 'user') {
+                return new GameDecision(actionSelect[userData], this.bet);
+            }
+        }
     }
     getHandScore = () => {
         let score = 0;
@@ -82,6 +85,7 @@ class GameDecision {
         this.action = action;
         this.amount = amount;
     }
+
 }
 
 class Table {
