@@ -54,7 +54,10 @@ class Player {
         this.chips = chips;
         this.bet = 0;
         this.winAmount = 0;
-        this.gameStatus = 'betting';
+        this.gameStatus = 'betting'; //{'betting','bet','surrender','stand','hit','double','blackjack','bust','broke'}
+    }
+    makeBet = (chips) => {
+        this.bet = chips;
     }
     promptPlayer = (userData = null) => { // input from userData = {bet, surrender, stand, double, hit}
         if (this.gameType === 'blackjack') {
@@ -67,13 +70,13 @@ class Player {
     }
     getHandScore = () => {
         let score = 0;
-        let arcCount = 0;
+        let aceCount = 0;
         for (let i = 0; i < this.hand.length; i++){
-            if (this.hand[i].getRankNumber() === 11) arcCount++;
+            if (this.hand[i].getRankNumber() === 11) aceCount++;
             score += this.hand[i].getRankNumber();
         }
         if (score >= 21) {
-            while (arcCount !== 0) score -= 10;
+            while (aceCount !== 0) score -= 10;
         }
         return score;
     }
@@ -93,7 +96,7 @@ class Table {
         this.gameType = gameType;
         this.betDenominations = betDenominations;
         this.deck = new Deck(this.gameType);
-        this.players = [new Player("Hujin", 'ai', this.gameType), new Player("Mikado", 'ai', this.gameType), new Player("Raijin", 'ai', this.gameType)];
+        this.players = [new Player("AI 1", 'ai', this.gameType), new Player("AI 3", 'ai', this.gameType), new Player("AI 3", 'ai', this.gameType)];
         this.house = new Player('house', 'house', this.gameType);
         this.gamePhase = 'betting'; //betting, acting, evaluatingWinners, gameOver
         this.resultsLog = [];
@@ -140,12 +143,9 @@ class Table {
         return true;
     }
 }
-// let table1 = new Table();
-// while (table1.gamePhase != 'roundOver') {
-//     table1.haveTurn();
-// }
-// console.log(table1.resultsLogs);
-let hi = new Deck()
-hi.shuffle();
-hi.resetDeck();
-console.log(hi)
+
+let table1 = new Table('ai', 'blackjack');
+while (table1.gamePhase != 'roundOver') {
+    table1.haveTurn();
+}
+console.log(table1.resultsLog)
