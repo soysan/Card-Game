@@ -58,6 +58,34 @@ class Player {
     }
     makeBet = (chips) => {
         this.bet = chips;
+        return this.bet;
+    }
+    blackjackTakeAction = (action) => {
+        switch (action) {
+            case "betting":
+                break;
+            case "bet":
+                break;
+            case "surrender":
+                this.chips += this.bet / 2;
+                this.bet = 0;
+                this.gameStatus = "bust";
+                return "bust";
+            case "stand":
+                return "stand";
+            case "hit":
+                this.hand.push(this.deck.drawOne());
+                if (this.getHandScore() > 21) return "bust";
+                break;
+            case "double":
+                this.chips -= this.bet;
+                this.bet += this.bet;
+                this.hand.push(this.deck.drawOne());
+                if (this.getHandScore() > 21) return "bust";
+                break;
+            default:
+                break;
+        }
     }
     promptPlayer = (userData = null) => { // input from userData = {bet, surrender, stand, double, hit}
         if (this.gameType === 'blackjack') {
@@ -96,7 +124,11 @@ class Table {
         this.gameType = gameType;
         this.betDenominations = betDenominations;
         this.deck = new Deck(this.gameType);
-        this.players = [new Player("AI 1", 'ai', this.gameType), new Player("AI 3", 'ai', this.gameType), new Player("AI 3", 'ai', this.gameType)];
+        this.players = [
+            new Player("AI 1", 'ai', this.gameType),
+            new Player("AI 3", 'ai', this.gameType),
+            new Player("AI 3", 'ai', this.gameType)
+        ];
         this.house = new Player('house', 'house', this.gameType);
         this.gamePhase = 'betting'; //betting, acting, evaluatingWinners, gameOver
         this.resultsLog = [];
