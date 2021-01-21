@@ -18,7 +18,7 @@ class Deck {
     }
     static generateDeck = () => {
         let newDeck = [];
-        const suits = ["♣", "♦", "♥", "♠"];
+        const suits = ["H","D","C","S"]; //["♣", "♦", "♥", "♠"];
         const values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
         for (let i = 0; i < suits.length; i++){
             for (let k = 0; k < values.length; k++){
@@ -67,7 +67,7 @@ class Player {
             case "bet":
                 break;
             case "surrender":
-                this.chips += this.bet / 2;
+                this.chips += Math.floor(this.bet / 2);
                 this.bet = 0;
                 this.gameStatus = "bust";
                 return "bust";
@@ -133,6 +133,9 @@ class Table {
         this.gamePhase = 'betting'; //betting, acting, evaluatingWinners, gameOver
         this.resultsLog = [];
     }
+    blackjackEvaluateRoundWinners = () => {
+
+    }
     evaluateMove = Player => {
         let decision = Player.promptPlayer();
     }
@@ -176,8 +179,11 @@ class Table {
     }
 }
 
-let table1 = new Table('ai', 'blackjack');
-while (table1.gamePhase != 'roundOver') {
-    table1.haveTurn();
-}
-console.log(table1.resultsLog)
+// let table1 = new Table('ai', 'blackjack');
+// while (table1.gamePhase != 'roundOver') {
+//     table1.haveTurn();
+// }
+let deck = new Deck();
+deck.shuffle();
+deck.resetDeck()
+console.log(deck.deck)
