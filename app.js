@@ -56,36 +56,7 @@ class Player {
         this.winAmount = 0;
         this.gameStatus = 'betting'; //{'betting','bet','surrender','stand','hit','double','blackjack','bust','broke'}
     }
-    makeBet = (chips) => {
-        this.bet = chips;
-        return this.bet;
-    }
-    blackjackTakeAction = (action) => {
-        switch (action) {
-            case "betting":
-                break;
-            case "bet":
-                break;
-            case "surrender":
-                this.chips += Math.floor(this.bet / 2);
-                this.bet = 0;
-                this.gameStatus = "bust";
-                return "bust";
-            case "stand":
-                return "stand";
-            case "hit":
-                this.hand.push(this.deck.drawOne());
-                if (this.getHandScore() > 21) return "bust";
-                break;
-            case "double":
-                this.chips -= this.bet;
-                this.bet += this.bet;
-                this.hand.push(this.deck.drawOne());
-                if (this.getHandScore() > 21) return "bust";
-                break;
-            default:
-                break;
-        }
+    
     }
     promptPlayer = (userData = null) => { // input from userData = {bet, surrender, stand, double, hit}
         if (this.gameType === 'blackjack') {
