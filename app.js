@@ -80,6 +80,7 @@ class Player {
         }
         return score;
     }
+    // need player object for result?
 }
 
 class GameDecision {
@@ -130,7 +131,17 @@ class Table {
         }
     }
     blackjackEvaluateAndGetRoundResults = () => {
-
+        for (let i = 0; i < this.players.length; i++){
+            let currPlayer = this.players[i];
+                if (currPlayer.getHandScore() < 21 && this.house.getHandScore() < currPlayer.getHandScore()) {
+                    currPlayer.winAmount = currPlayer.gameStatus ===
+                        'hit' || 'stand' ? Math.floor(currPlayer.bet * 1.5) :
+                        'double' ? Math.floor(currPlayer.bet * 2) : 0;
+                    currPlayer.gameStatus = 'win';
+                } else {
+                    currPlayer.gameStatus = 'lose';
+                }
+        }
     }
     blackjackAssignPlayerHands = () => {
         for (let i = 0; i < this.players.length; i++){
