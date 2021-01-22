@@ -56,15 +56,13 @@ class Player {
         this.winAmount = 0;
         this.gameStatus = 'betting'; //{'betting','bet','surrender','stand','hit','double','blackjack','bust','broke'}
     }
-    
-    }
     promptPlayer = (userData = null) => { // input from userData = {bet, surrender, stand, double, hit}
-        if (this.gameType === 'blackjack') {
-            if (this.type === 'ai') {
-                return new GameDecision(null, null);
-            } else if (this.type === 'user') {
-                return new GameDecision(userData, this.bet);
-            }
+        if (userData.type === 'ai') {
+            return new GameDecision(null, null);
+        } else if (userData.type === 'user') {
+            return new GameDecision(userData.gameStatus, userData.bet);
+        } else if (userData.type === 'house') {
+            return new GameDecision()
         }
     }
     getHandScore = () => {
@@ -75,7 +73,10 @@ class Player {
             score += this.hand[i].getRankNumber();
         }
         if (score >= 21) {
-            while (aceCount !== 0) score -= 10;
+            while (aceCount !== 0) {
+                score -= 10;
+                aceCount--;
+            }
         }
         return score;
     }
@@ -83,14 +84,13 @@ class Player {
 
 class GameDecision {
     constructor(action, amount) {
-        this.action = action;
+        this.action = action; //'bet','surrender','stand','hit','double'
         this.amount = amount;
     }
 
 }
 
 class Table {
-    static turnCounter = 0;
     constructor(gameType, betDenominations = [5,20,50,100]) {
         this.gameType = gameType;
         this.betDenominations = betDenominations;
@@ -98,8 +98,10 @@ class Table {
         this.players = [
             new Player("AI 1", 'ai', this.gameType),
             new Player("AI 3", 'ai', this.gameType),
-            new Player("AI 3", 'ai', this.gameType)
+            new Player("AI 3", 'ai', this.gameType),
+            this.house
         ];
+        this.turnCounter = 0;
         this.house = new Player('house', 'house', this.gameType);
         this.gamePhase = 'betting'; //betting, acting, evaluatingWinners, gameOver
         this.resultsLog = [];
@@ -109,17 +111,34 @@ class Table {
     }
     evaluateMove = Player => {
         let decision = Player.promptPlayer();
+        switch (decision) {
+            case 'surrender':
+                Player.chips += Math.floor(Player.bet / 2);
+                Player.bet = 0;
+                break;
+            case 'hit':
+                Player.hand.push(this.deck.drawOne());
+                break;
+            case 'double':
+                Player.chips -= Player.bet;
+                Player.bet *= 2;
+                break;
+            case 'stand':
+                break;
+            default:
+                break;
+        }
     }
     blackjackEvaluateAndGetRoundResults = () => {
 
     }
     blackjackAssignPlayerHands = () => {
-        // house???
         for (let i = 0; i < this.players.length; i++){
-            let j = 0;
+            let j = this.players[i] === this.house ? 1 : 0;
             let cards = [];
             while (j <= 2) {
                 cards.push(this.deck.drawOne());
+                j++;
             }
             this.players[i].hand = cards;
         }
