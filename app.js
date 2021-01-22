@@ -153,7 +153,29 @@ class Table {
 
     }
     haveTurn = (userData) => {
-
+        switch (this.gamePhase) {
+            case 'betting':
+                for (let i = 0; i < this.players.length; i++){
+                    this.players[i].promptPlayer(userData);
+                    this.getTurnPlayer();
+                    this.evaluateMove(userData);
+                }
+                this.gamePhase = 'acting';
+                break;
+            case 'acting':
+                for (let i = 0; i < this.players.length; i++) {
+                    this.players[i].promptPlayer(userData);
+                    this.getTurnPlayer();
+                    this.evaluateMove(userData);
+                }
+                break;
+            case 'roundOver':
+                this.turnCounter++;
+                this.blackjackEvaluateAndGetRoundResults();
+                break;
+            default:
+                break;
+        }
     }
     onFirstPlayer = () => {
         return this.players[0] === this.getTurnPlayer();
